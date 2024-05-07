@@ -13,7 +13,14 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  new Promise((resolve, reject) => {
+    if (books != null) {
+      resolve(books)
+    } else {
+      reject("No books found !")
+    }
+  }).then((books) => {res.status(200).json({"status": true, "message": "Successful get books data", "data": books})})
+    .catch((err) => { res.status(403).json(err)})
 });
 
 // Get book details based on ISBN
