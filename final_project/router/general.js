@@ -25,26 +25,69 @@ public_users.get('/',function (req, res) {
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const isbn = parseInt(req.params.isbn)
+
+  new Promise((resolve, reject) => {
+    let isbnBook = books[isbn]
+
+    if (isbnBook) {
+      resolve(isbnBook)
+    } else {
+      reject("No books Found")
+    }
+  }).then((book) => {res.status(200).json({"status": true, "message": "Successful get book data", "data": book})})
+    .catch((err) => {res.status(403).json({"status": false, "message": "Failed get book data", "error":err})})
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const author = req.params.author
+
+  new Promise((resolve, reject) => {
+
+    let bookFilterAuthor = Object.values(books).filter(book => book.author === author);
+
+    if (bookFilterAuthor.length > 0) {
+      resolve(bookFilterAuthor)
+    } else {
+      reject("No book found")
+    }
+  }).then((book) => {res.status(200).json({"status": true, "message": "Successful get book data", "data": book})})
+    .catch((err) => {res.status(403).json({"status": false, "message": "Failed get book data", "error":err})})
+
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const title = req.params.title
+
+  new Promise((resolve, reject) => {
+
+    let bookFilterTitle = Object.values(books).filter(book => book.title === title);
+
+    if (bookFilterTitle.length > 0) {
+      resolve(bookFilterTitle)
+    } else {
+      reject("No book found")
+    }
+  }).then((book) => {res.status(200).json({"status": true, "message": "Successful get book data", "data": book})})
+    .catch((err) => {res.status(403).json({"status": false, "message": "Failed get book data", "error":err})})
 });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const isbn = parseInt(req.params.isbn)
+
+  new Promise((resolve, reject) => {
+    let isbnReview = books[isbn]
+
+    if (isbnReview) {
+      resolve(isbnReview)
+    } else {
+      reject("Not book found !")
+    }
+  }).then((isbnReview) => res.status(200).json({"status": true, "message": "Successful get review book data", "reviews": isbnReview.reviews}))
+    .catch((err) => {res.status(403).json({"status": false, "message": "Failed get book data", "error":err})})
 });
 
 module.exports.general = public_users;
