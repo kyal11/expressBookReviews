@@ -14,9 +14,8 @@ public_users.post("/register", (req, res) => {
     }
     if (isValid(username)) {
       return reject("Username already exists");
-    } else {
-      resolve({ username, password });
     }
+    resolve({ username, password });
   })
   .then(user => {
     users.push(user);
@@ -37,7 +36,7 @@ public_users.get('/',function (req, res) {
     } else {
       reject("No books found !")
     }
-  }).then((books) => {res.status(200).json({"status": true, "message": "Successful get books data", "data": books, "users": users})})
+  }).then((books) => {res.status(200).json({"status": true, "message": "Successful get books data", "data": books})})
     .catch((err) => { res.status(403).json(err)})
 });
 
